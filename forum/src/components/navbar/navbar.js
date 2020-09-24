@@ -5,7 +5,7 @@ function Navbar() {
     return(
         <div className="Navbar">
             <header className="Navbar_header">
-                <h1 className="Navbar_text">Forum</h1>
+                <h1 className="Navbar_text">News Feed</h1>
                 <form
                 >
                     <input
@@ -14,6 +14,8 @@ function Navbar() {
                         placeholder="Search"
                         />
                 </form>
+                <button className="Navbar_button">Sign In</button>
+                <button className="Navbar_button">Sign Up</button>
             </header>
         </div>
     );
