@@ -1,0 +1,24 @@
+.Navbar {
+    text-align: center;
+  }
+
+.Navbar_header {
+    background-color: #222831;
+    height: 30px;
+    display: flex;
+    
+}
+
+.Navbar_text {
+    color: #00adb5;
+    font-size: medium;
+    align-self: center;
+    margin-left: 10px;
+}
+
+.Navbar_search {
+    background-color: #00adb5;
+    width: 300px;
+    margin-left: 10px;
+
+}
