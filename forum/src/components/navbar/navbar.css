@@ -20,5 +20,10 @@
     background-color: #00adb5;
     width: 300px;
     margin-left: 10px;
+}
 
+.Navbar_button{
+    height: 20px;
+    align-self: center;
+    margin-left: 10px;
 }

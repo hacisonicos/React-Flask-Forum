@@ -14,6 +14,8 @@ function Navbar() {
                         placeholder="Search"
                         />
                 </form>
+                <button className="Navbar_button">Sign In</button>
+                <button className="Navbar_button">Sign Up</button>
             </header>
         </div>
     );
