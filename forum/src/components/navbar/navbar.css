@@ -5,7 +5,7 @@
 
 .Navbar_header {
     background-color: #222831;
-    height: 30px;
+    height: 40px;
     display: flex;
     align-content: center;
     justify-content: center;
@@ -25,6 +25,7 @@
     border: 'solid 1px';
     border-color: #00adb5 ;
     color: #00adb5;
+    margin-top: 10px;
 }
 
 .Navbar_button{
