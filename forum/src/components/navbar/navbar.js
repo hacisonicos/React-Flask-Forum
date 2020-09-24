@@ -5,7 +5,7 @@ function Navbar() {
     return(
         <div className="Navbar">
             <header className="Navbar_header">
-                <h1 className="Navbar_text">Forum</h1>
+                <h1 className="Navbar_text">News Feed</h1>
                 <form
                 >
                     <input
