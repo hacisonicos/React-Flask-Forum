@@ -15,7 +15,7 @@ def index():
 
 
 @app.route('/api')
-def get_current_time():
+def get_news_data():
     data = dict()
 
     data["title"] = "İstanbul Eczacı Odası, zatürre aşısı olması gereken risk gruplarını açıkladı"
