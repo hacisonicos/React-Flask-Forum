@@ -1,5 +1,17 @@
 import React from 'react';
 import './navbar.css';
+import { styled } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const MyButton = styled(Button)({
+    height: 22,
+    background: "#00adb5",
+    border: 0,
+    borderRadius: 3,
+    marginLeft: 5,
+    marginTop: 10,
+    color: "#222831"
+});
 
 function Navbar() {
     return(
@@ -14,8 +26,8 @@ function Navbar() {
                         placeholder="Search"
                         />
                 </form>
-                <button className="Navbar_button">Sign In</button>
-                <button className="Navbar_button">Sign Up</button>
+                <MyButton variant="contained"> Sign In</MyButton>
+                <MyButton variant="contained"> Sign Up</MyButton>
             </header>
         </div>
     );
