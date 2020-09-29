@@ -5,7 +5,7 @@
 
 .Navbar_header {
     background-color: #222831;
-    height: 40px;
+    height: 55px;
     display: flex;
     align-content: center;
     justify-content: center;
@@ -16,6 +16,7 @@
     font-size: medium;
     align-self: center;
     margin-left: 10px;
+    margin-right: 5px;
 }
 
 .Navbar_search {
