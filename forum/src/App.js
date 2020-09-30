@@ -27,7 +27,7 @@ function App() {
           <Typography component="div">
             {newsData.map((news) => (
               <News
-                title={newsData.length > 0 && news.title}
+                title={newsData.length > 0 && news.title + news.date}
                 url={newsData.length > 0 && news.image_url}
                 alt={newsData.length > 0 && news.description}
                 context={newsData.length > 0 && news.text}
