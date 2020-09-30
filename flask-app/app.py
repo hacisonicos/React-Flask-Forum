@@ -41,8 +41,13 @@ def articles_todatabase(articles):
 
     news_dict = NewsPlease.from_urls(articles)
 
+    if len(news_dict) == 0:
+        return False
+
+    entries = []
+
     for key in news_dict:
-        data_point = NewsModel(
+        data_point = dict(
             title=news_dict[key].title,
             description=news_dict[key].description,
             text=news_dict[key].maintext,
@@ -50,12 +55,12 @@ def articles_todatabase(articles):
             date=news_dict[key].date_publish,
             url=news_dict[key].url,
         )
-        is_in = NewsModel.query.filter_by(url=news_dict[key].url).first()
-        if is_in is None:
-            db.session.add(data_point)
-        else:
-            continue
+        entries.append(data_point)
 
+    insert_command = NewsModel.__table__.insert(
+    ).prefix_with('OR IGNORE').values(entries)
+
+    db.session.execute(insert_command)
     db.session.commit()
 
     return True
@@ -71,7 +76,9 @@ def news_data():
         links.append(entry.link)
 
     if articles_todatabase(links):
-        print("Success")
+        print("Success!")
+    else:
+        print("Fail!")
 
 
 resource_fields = {
@@ -89,7 +96,7 @@ class News(Resource):
         Api for news data. Added to resources after. Input is a flask_restful class.
     '''
 
-    @marshal_with(resource_fields)
+    @ marshal_with(resource_fields)
     def get(self):
         result = NewsModel.query.order_by(
             NewsModel.date.desc()).limit(10).all()  # Order by time and get latest 10 news.
