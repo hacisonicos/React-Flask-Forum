@@ -20,16 +20,19 @@ class NewsModel(db.Model):
     '''
         DataBase class for news data.
     '''
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    __tablename__ = 'news'
     title = db.Column(db.UnicodeText())
     description = db.Column(db.UnicodeText())
     text = db.Column(db.UnicodeText())
     image_url = db.Column(db.Text())
     date = db.Column(db.DateTime())
-    url = db.Column(db.Text())
+    url = db.Column(db.Text(), primary_key=True)
 
     def __repr__(self):
         return f"__repr__ test: {self.url}"
+
+
+# db.create_all()  # To create sqllite database. Creates from tables to engine.
 
 
 def articles_todatabase(articles):
@@ -47,8 +50,11 @@ def articles_todatabase(articles):
             date=news_dict[key].date_publish,
             url=news_dict[key].url,
         )
-
-        db.session.add(data_point)
+        is_in = NewsModel.query.filter_by(url=news_dict[key].url).first()
+        if is_in is None:
+            db.session.add(data_point)
+        else:
+            continue
 
     db.session.commit()
 
@@ -66,9 +72,6 @@ def news_data():
 
     if articles_todatabase(links):
         print("Success")
-
-
-# db.create_all()  # To create sqllite database. Creates from tables to engine.
 
 
 resource_fields = {
@@ -100,7 +103,7 @@ api.add_resource(News, "/news")
 
 # Scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=news_data, trigger="interval", minutes=3)
+scheduler.add_job(func=news_data, trigger="interval", minutes=5)
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
