@@ -30,7 +30,7 @@ function App() {
                 title={newsData.length > 0 && news.title}
                 url={newsData.length > 0 && news.image_url}
                 alt={newsData.length > 0 && news.description}
-                context={newsData.length > 0 && news.text}
+                context={newsData.length > 0 && news.description}
               ></News>
             ))}
           </Typography>
