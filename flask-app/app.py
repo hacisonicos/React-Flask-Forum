@@ -1,11 +1,12 @@
 from datetime import datetime
 import atexit
-from newsplease import NewsPlease
 from pygooglenews import GoogleNews
 from flask import Flask
 from flask_restful import Api, Resource, fields, marshal_with  # reqparse, abort,
 from flask_sqlalchemy import SQLAlchemy
 from apscheduler.schedulers.background import BackgroundScheduler
+from newspaper import Article
+from time import mktime
 
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
@@ -27,6 +28,7 @@ class NewsModel(db.Model):
     image_url = db.Column(db.Text())
     date = db.Column(db.DateTime())
     url = db.Column(db.Text(), primary_key=True)
+    section = db.Column(db.Text())
 
     def __repr__(self):
         return f"__repr__ test: {self.url}"
@@ -35,27 +37,35 @@ class NewsModel(db.Model):
 # db.create_all()  # To create sqllite database. Creates from tables to engine.
 
 
-def articles_todatabase(articles):
-    """Takes links of articles as input.
-    Uses NewsPlease to retrieve articles and adds to database.True if successful else False"""
-
-    news_dict = NewsPlease.from_urls(articles)
-
-    if len(news_dict) == 0:
-        return False
+def articles_todatabase(articles, sections, dates):
+    """Takes links of articles as input. Sections and dates comes from pygooglenews so added independent of newspaperv3
+    Uses NewsPlease to retrieve articles and adds to database.True if successful else False
+    """
 
     entries = []
 
-    for key in news_dict:
-        data_point = dict(
-            title=news_dict[key].title,
-            description=news_dict[key].description,
-            text=news_dict[key].maintext,
-            image_url=news_dict[key].image_url,
-            date=news_dict[key].date_publish,
-            url=news_dict[key].url,
-        )
-        entries.append(data_point)
+    for i, article in enumerate(articles):
+        try:
+            article = Article(article)
+
+            article.download()
+            article.parse()
+
+            entries.append(dict(
+                title=article.title,
+                description=article.meta_description,
+                text=article.text,
+                image_url=article.meta_img,
+                date=dates[i],
+                url=article.canonical_link,
+                section=sections[i],
+            ))
+
+        except KeyboardInterrupt:
+            print("CTRL+C!")
+            return False
+        except:
+            continue
 
     insert_command = NewsModel.__table__.insert(
     ).prefix_with('OR IGNORE').values(entries)
@@ -67,15 +77,25 @@ def articles_todatabase(articles):
 
 
 def news_data():
-    print(
-        f"Database update has started! Time: {datetime.now().time()}")
-    top = gn.top_news()
+    print(f"Database update has started! Time: {datetime.now().time()}")
+
     links = []
+    sections = []
+    dates = []
+    topics = ['WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY',
+              'ENTERTAINMENT', 'SCIENCE', 'SPORTS', 'HEALTH']
 
-    for entry in top["entries"]:
-        links.append(entry.link)
+    for topic in topics:
+        data = gn.topic_headlines(topic, proxies=None, scraping_bee=None)
+        for entry in data["entries"]:
+            links.append(entry.link)
+            sections.append(topic)
+            dates.append(datetime.fromtimestamp(
+                mktime(entry["published_parsed"])))
 
-    if articles_todatabase(links):
+    print("Got news links")
+
+    if articles_todatabase(links, sections, dates):
         print("Success!")
     else:
         print("Fail!")
@@ -110,7 +130,7 @@ api.add_resource(News, "/news")
 
 # Scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=news_data, trigger="interval", minutes=5)
+scheduler.add_job(func=news_data, trigger="interval", minutes=10)
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
