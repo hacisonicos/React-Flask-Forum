@@ -130,7 +130,7 @@ api.add_resource(News, "/news")
 
 # Scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=news_data, trigger="interval", minutes=10)
+scheduler.add_job(func=news_data, trigger="interval", minutes=15)
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
