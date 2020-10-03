@@ -54,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
   link:{
     textDecoration: 'none',
     color: theme.palette.text.primary
+  },
+  pagination:{
+    justifyItems:'center',
+    alignItems: 'center'
   }
 }));
 
