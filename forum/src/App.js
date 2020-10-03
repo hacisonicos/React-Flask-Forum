@@ -65,7 +65,7 @@ export default function App() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            News Feed
+            Haber Akışı
           </Typography>
         </Toolbar>
       </AppBar>
@@ -82,47 +82,47 @@ export default function App() {
           <List>
             <Link to="/" className={classes.link}>
               <ListItem button key="Home">
-                <ListItemText primary="Home"/>
+                <ListItemText primary="Anasayfa"/>
               </ListItem>
             </Link>
             <Link to="/world" className={classes.link}>
               <ListItem button key="World">
-                <ListItemText primary="World"/>
+                <ListItemText primary="Dünya"/>
               </ListItem>
             </Link>
             <Link to="/nation" className={classes.link}>
               <ListItem button key="Nation">
-                <ListItemText primary="Nation"/>
+                <ListItemText primary="Ulusal"/>
               </ListItem>
             </Link>
             <Link to="/business" className={classes.link}>
               <ListItem button key="Business">
-                <ListItemText primary="Business"/>
+                <ListItemText primary="Ekonomi"/>
               </ListItem>
             </Link>
             <Link to="/technology" className={classes.link}>
               <ListItem button key="Technology">
-                <ListItemText primary="Technology"/>
+                <ListItemText primary="Teknoloji"/>
               </ListItem>
             </Link>
             <Link to="/entertainment" className={classes.link}>
               <ListItem button key="Entertainment">
-                <ListItemText primary="Entertainment"/>
+                <ListItemText primary="Magazin"/>
               </ListItem>
             </Link>
             <Link to="/science" className={classes.link}>
               <ListItem button key="Science">
-                <ListItemText primary="Science"/>
+                <ListItemText primary="Bilim"/>
               </ListItem>
             </Link>
             <Link to="/sports" className={classes.link}>
               <ListItem button key="Sports">
-                <ListItemText primary="Sports"/>
+                <ListItemText primary="Spor"/>
               </ListItem>
             </Link>
             <Link to="/health" className={classes.link}>
               <ListItem button key="Health">
-                <ListItemText primary="Health"/>
+                <ListItemText primary="Sağlık"/>
               </ListItem>
             </Link>
           </List>
