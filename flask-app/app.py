@@ -113,6 +113,7 @@ resource_fields = {
     'image_url': fields.String,
     'date': fields.DateTime,
     'url': fields.String,
+    'section': fields.String,
 }
 
 
