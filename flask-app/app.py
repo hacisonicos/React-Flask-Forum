@@ -22,12 +22,13 @@ class NewsModel(db.Model):
         DataBase class for news data.
     '''
     __tablename__ = 'news'
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.UnicodeText())
     description = db.Column(db.UnicodeText())
     text = db.Column(db.UnicodeText())
     image_url = db.Column(db.Text())
     date = db.Column(db.DateTime())
-    url = db.Column(db.Text(), primary_key=True)
+    url = db.Column(db.Text())
     section = db.Column(db.Text())
 
     def __repr__(self):
@@ -83,10 +84,14 @@ def news_data():
     sections = []
     dates = []
     topics = ['WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY',
-              'ENTERTAINMENT', 'SCIENCE', 'SPORTS', 'HEALTH']
+              'ENTERTAINMENT', 'SCIENCE', 'SPORTS', 'HEALTH', 'HOME']
 
     for topic in topics:
-        data = gn.topic_headlines(topic, proxies=None, scraping_bee=None)
+        if topic == "HOME":
+            data = gn.top_news()
+        else:
+            data = gn.topic_headlines(topic, proxies=None, scraping_bee=None)
+
         for entry in data["entries"]:
             links.append(entry.link)
             sections.append(topic)
@@ -118,12 +123,10 @@ class News(Resource):
 
     @ marshal_with(resource_fields)
     def get(self, topic):
-        if topic == "home":
-            result = NewsModel.query.order_by(
-                NewsModel.date.desc()).limit(10).all()
-        else:
-            result = NewsModel.query.filter_by(section=topic.upper()).order_by(
-                NewsModel.date.desc()).limit(10).all()  # Order by time and get latest 10 news.
+        # Order by time and get latest 10 news.
+        result = NewsModel.query.filter_by(
+            section=topic.upper()).order_by(NewsModel.id.asc()).all()
+
         return result
 
     def post(self):
@@ -134,7 +137,7 @@ api.add_resource(News, "/news/<string:topic>")
 
 # Scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=news_data, trigger="interval", minutes=15)
+scheduler.add_job(func=news_data, trigger="interval", minutes=10)
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
