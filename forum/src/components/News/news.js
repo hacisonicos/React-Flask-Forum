@@ -1,10 +1,11 @@
 import React from 'react';
+import { Divider, Typography } from '@material-ui/core';
 
 import './news.css';
 
 function News(props) {
     return(
-        <div className="News">
+        <div>
             <header className="News-header">
                 <h1 className="News-title">{props.title}</h1>
                 <img className="News-image"
@@ -12,6 +13,7 @@ function News(props) {
                 alt={props.alt}/>
                 <p className="News-context">{props.context}</p>
             </header>
+            <Divider/>
         </div>
     );
   }
