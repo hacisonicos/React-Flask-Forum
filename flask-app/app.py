@@ -117,16 +117,20 @@ class News(Resource):
     '''
 
     @ marshal_with(resource_fields)
-    def get(self):
-        result = NewsModel.query.order_by(
-            NewsModel.date.desc()).limit(10).all()  # Order by time and get latest 10 news.
+    def get(self, topic):
+        if topic == "home":
+            result = NewsModel.query.order_by(
+                NewsModel.date.desc()).limit(10).all()
+        else:
+            result = NewsModel.query.filter_by(section=topic.upper()).order_by(
+                NewsModel.date.desc()).limit(10).all()  # Order by time and get latest 10 news.
         return result
 
     def post(self):
         pass
 
 
-api.add_resource(News, "/news")
+api.add_resource(News, "/news/<string:topic>")
 
 # Scheduler
 scheduler = BackgroundScheduler()
