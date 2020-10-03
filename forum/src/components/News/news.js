@@ -4,7 +4,7 @@ import './news.css';
 
 function News(props) {
     return(
-        <div className="News">
+        <div >
             <header className="News-header">
                 <h1 className="News-title">{props.title}</h1>
                 <img className="News-image"
