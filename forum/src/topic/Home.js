@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import News from "../components/News/news";
+//pagination
+import Pagination from "../components/Pagination/pagination";
 
 export default function App() {
   const [newsData, setnewsData] = useState([]);
@@ -36,6 +38,7 @@ export default function App() {
           </Typography>
         </Container>
       </React.Fragment>
+      <Pagination/>
     </div>
   );
 }
