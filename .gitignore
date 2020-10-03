@@ -6,3 +6,4 @@ flask-app/__pycache__/app.cpython-37.pyc
 *.pyc
 *.pyc
 flask-app/database.db
+*.pyc

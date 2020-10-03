@@ -126,7 +126,7 @@ class News(Resource):
     def get(self, topic):
         # Order by time and get latest 10 news.
         result = NewsModel.query.filter_by(
-            section=topic.upper()).order_by(NewsModel.id.asc()).all()
+            section=topic.upper()).order_by(NewsModel.id.asc()).limit(10).all()
 
         return result
 
