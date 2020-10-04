@@ -22,13 +22,13 @@ class NewsModel(db.Model):
         DataBase class for news data.
     '''
     __tablename__ = 'news'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.UnicodeText())
     description = db.Column(db.UnicodeText())
     text = db.Column(db.UnicodeText())
     image_url = db.Column(db.Text())
     date = db.Column(db.DateTime())
-    url = db.Column(db.Text())
+    url = db.Column(db.Text(), unique=True)
     section = db.Column(db.Text())
 
     def __repr__(self):
@@ -126,7 +126,7 @@ class News(Resource):
     def get(self, topic):
         # Order by time and get latest 10 news.
         result = NewsModel.query.filter_by(
-            section=topic.upper()).order_by(NewsModel.id.asc()).limit(10).all()
+            section=topic.upper()).order_by(NewsModel.date.desc()).limit(10).all()
 
         return result
 
