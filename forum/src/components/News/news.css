@@ -24,3 +24,7 @@
     font-size: medium;
     text-align: justify;
 }
+
+.News_button{
+    display: "flex"
+}

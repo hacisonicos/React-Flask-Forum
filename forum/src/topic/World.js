@@ -49,10 +49,11 @@ export default function App() {
           <Typography paragraph>
             {newsData.slice((page - 1) * itemsPerPage, page*itemsPerPage).map((news) => (
               <News
-                title={newsData.length > 0 && news.title}
-                url={newsData.length > 0 && news.image_url}
-                alt={newsData.length > 0 && news.description}
-                context={newsData.length > 0 && news.description}
+              title={newsData.length > 0 && news.title}
+              image_url={newsData.length > 0 && news.image_url}
+              alt={newsData.length > 0 && news.description}
+              context={newsData.length > 0 && news.description}
+              url={newsData.length > 0 && news.url}
               ></News>
             ))}
           </Typography>
